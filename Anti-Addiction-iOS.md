@@ -14,7 +14,9 @@ This guide is intended for publishers who want to integrate the Anti-Addiction S
   <key>zchannelid</key>
   <string>your channel id</string>
   ```
-  # Import SDK
+
+# Import SDK
+
   - Cocoapods (preferred)
     The simplest way to import the SDK into an iOS project is to use CocoaPods. 
     Open your project's Podfile and add this line to your app's target: 
@@ -26,7 +28,9 @@ This guide is intended for publishers who want to integrate the Anti-Addiction S
     pod install
     ```
     If you're new to CocoaPods, see their [official documentation](https://guides.cocoapods.org/using/using-cocoapods) for info on how to create and use Podfile.
+
 # Integration
+
 1. Init SDK
    Usually we recommend initializing the SDK after the user agrees to the privacy policy.
    ```objective-c
@@ -58,8 +62,13 @@ This guide is intended for publishers who want to integrate the Anti-Addiction S
        [self.aaManager presentRealNameAuthenticationController];
     }
    ```
+
 4. Check left time of the current user
+
    The left time will update every minute or application resign to backend.(except off-line)
+
+   -1 is no limited.
+
    ```objective-c
    - (void)checkLeftTime {
        int leftTime = [self.aaManager leftTimeOfCurrentUser];

@@ -1,5 +1,8 @@
+
+[See English Guide](https://github.com/yumimobi/AASDKDemo-iOS/blob/main/Anti-Addiction-iOS.md)
+
 [toc]
-[See English Guide]()
+
 # 入门指南
 本指南适用于希望通过 AAManager SDK 接入防沉迷功能的发布商。
 # 前提条件

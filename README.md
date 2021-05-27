@@ -17,7 +17,9 @@
   ```
 # 导入防沉迷 SDK
 1. CocoaPods （首选）
+   
    要将该 SDK 导入 iOS 项目，最简便的方法就是使用 [CocoaPods](https://guides.cocoapods.org/using/getting-started)。
+   
    ```ruby
    pod 'AAManager', '~> 0.1.14'
    ```
@@ -73,6 +75,7 @@
    ```
 5. 查询当前用户剩余时间
    联网状态下每分钟（或切换前后台时）更新一次
+   -1 为无限制
    ```objective-c
    - (void)checkLeftTime {
     int leftTime = [self.aaManager leftTimeOfCurrentUser];

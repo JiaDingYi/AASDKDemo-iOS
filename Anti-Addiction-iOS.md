@@ -19,7 +19,7 @@ This guide is intended for publishers who want to integrate the Anti-Addiction S
     The simplest way to import the SDK into an iOS project is to use CocoaPods. 
     Open your project's Podfile and add this line to your app's target: 
     ```ruby
-    pod 'AAManager', '~> 0.1.13'
+    pod 'AAManager', '~> 0.1.14'
     ```
     Then run the below command line:
     ```shell

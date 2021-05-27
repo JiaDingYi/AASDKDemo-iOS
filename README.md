@@ -19,7 +19,7 @@
 1. CocoaPods （首选）
    要将该 SDK 导入 iOS 项目，最简便的方法就是使用 [CocoaPods](https://guides.cocoapods.org/using/getting-started)。
    ```ruby
-   pod 'AAManager', '~> 0.1.13'
+   pod 'AAManager', '~> 0.1.14'
    ```
    然后使用命令行运行
    ```shell

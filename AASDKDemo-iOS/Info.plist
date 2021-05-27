@@ -62,5 +62,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>zgameid</key>
+    <string>z01005</string>
+    <key>zchannelid</key>
+    <string>zy005</string>
 </dict>
 </plist>

@@ -5,6 +5,6 @@ target 'AASDKDemo-iOS' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  pod 'AAManager', '0.1.14'
+  pod 'AAManager', '0.4.0'
 
 end

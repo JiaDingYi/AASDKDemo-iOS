@@ -10,8 +10,17 @@
 #import <Masonry/Masonry.h>
 
 @interface ViewController () <AAManagerDelegate>
+// 暂不认证 实名认证控制器
 @property (nonatomic) UIButton *realNameAuthButton;
+// 退出游戏 实名认证控制器
+@property (nonatomic) UIButton *realNameAuthButtonWithForceExit;
+// 查看剩余时间
 @property (nonatomic) UIButton *checkLeftTimeButton;
+// 查看详情
+@property (nonatomic) UIButton *checkDetailInfoButton;
+// 消费限制
+@property (nonatomic) UIButton *cashLimitedButton;
+@property (nonatomic, assign) BOOL isPresentAlertInfo;
 @property (nonatomic) UITextView *console;
 
 @property (nonatomic) AAManager *aaManager;
@@ -22,14 +31,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setUpUI];
+    [self initAASDK];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self setUpUI];
-    [self initAASDK];
+    // 展示提示控制器
+    if ([self.aaManager isLogined] && !self.isPresentAlertInfo) {
+        if ([self.aaManager isAdult] == adult) {
+            return;
+        }
+        [self.aaManager presentAlertInfoControllerWithRootViewController:self];
+        self.isPresentAlertInfo = YES;
+    }
 }
 
 - (void)initAASDK {
@@ -48,7 +65,7 @@
     self.realNameAuthButton.backgroundColor = [UIColor blackColor];
     self.realNameAuthButton.layer.cornerRadius = 8.0;
     self.realNameAuthButton.layer.masksToBounds = YES;
-    [self.realNameAuthButton setTitle:@"实名认证" forState:UIControlStateNormal];
+    [self.realNameAuthButton setTitle:@"展示暂不认证实名认证界面" forState:UIControlStateNormal];
     CGSize realNameSize = [self.realNameAuthButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.realNameAuthButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.realNameAuthButton];
     [self.realNameAuthButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -56,6 +73,51 @@
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(realNameSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(realNameSize.height);
+    }];
+    
+    self.realNameAuthButtonWithForceExit = [[UIButton alloc] init];
+    [self.realNameAuthButtonWithForceExit addTarget:self action:@selector(realNameAuthWithForceExit) forControlEvents:UIControlEventTouchUpInside];
+    self.realNameAuthButtonWithForceExit.backgroundColor = [UIColor blackColor];
+    self.realNameAuthButtonWithForceExit.layer.cornerRadius = 8.0;
+    self.realNameAuthButtonWithForceExit.layer.masksToBounds = YES;
+    [self.realNameAuthButtonWithForceExit setTitle:@"展示强制退出实名认证界面" forState:UIControlStateNormal];
+    CGSize realNameWithForceExitSize = [self.realNameAuthButtonWithForceExit.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.realNameAuthButtonWithForceExit.titleLabel.font, NSFontAttributeName, nil]];
+    [self.view addSubview:self.realNameAuthButtonWithForceExit];
+    [self.realNameAuthButtonWithForceExit mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.realNameAuthButton.mas_bottom).with.offset(20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_greaterThanOrEqualTo(realNameWithForceExitSize.width + 30);
+        make.height.mas_greaterThanOrEqualTo(realNameWithForceExitSize.height);
+    }];
+    
+    self.checkDetailInfoButton = [[UIButton alloc] init];
+    [self.checkDetailInfoButton addTarget:self action:@selector(checkDetailInfo) forControlEvents:UIControlEventTouchUpInside];
+    self.checkDetailInfoButton.backgroundColor = [UIColor blackColor];
+    self.checkDetailInfoButton.layer.cornerRadius = 8.0;
+    self.checkDetailInfoButton.layer.masksToBounds = YES;
+    [self.checkDetailInfoButton setTitle:@"查看详情" forState:UIControlStateNormal];
+    CGSize detailInfoSize = [self.checkDetailInfoButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.checkDetailInfoButton.titleLabel.font, NSFontAttributeName, nil]];
+    [self.view addSubview:self.checkDetailInfoButton];
+    [self.checkDetailInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.realNameAuthButtonWithForceExit.mas_bottom).with.offset(20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_greaterThanOrEqualTo(detailInfoSize.width + 30);
+        make.height.mas_greaterThanOrEqualTo(detailInfoSize.height);
+    }];
+    
+    self.cashLimitedButton = [[UIButton alloc] init];
+    [self.cashLimitedButton addTarget:self action:@selector(presentCashLimitedController) forControlEvents:UIControlEventTouchUpInside];
+    self.cashLimitedButton.backgroundColor = [UIColor blackColor];
+    self.cashLimitedButton.layer.cornerRadius = 8.0;
+    self.cashLimitedButton.layer.masksToBounds = YES;
+    [self.cashLimitedButton setTitle:@"消费限制" forState:UIControlStateNormal];
+    CGSize cashLimitedSize = [self.cashLimitedButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.cashLimitedButton.titleLabel.font, NSFontAttributeName, nil]];
+    [self.view addSubview:self.cashLimitedButton];
+    [self.cashLimitedButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.checkDetailInfoButton.mas_bottom).with.offset(20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_greaterThanOrEqualTo(cashLimitedSize.width + 30);
+        make.height.mas_greaterThanOrEqualTo(cashLimitedSize.height);
     }];
     
     
@@ -68,7 +130,7 @@
     CGSize checkLeftTimeSize = [self.checkLeftTimeButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.checkLeftTimeButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.checkLeftTimeButton];
     [self.checkLeftTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.realNameAuthButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.cashLimitedButton.mas_bottom).with.offset(20);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(checkLeftTimeSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(checkLeftTimeSize.height);
@@ -109,7 +171,31 @@
         [self addLog:@"您已实名认证，无需再次认证"];
         return;
     }
-    [self.aaManager presentRealNameAuthenticationController];
+    [self.aaManager presentRealNameAuthenticationControllerWithRootViewController:self];
+}
+
+- (void)realNameAuthWithForceExit {
+    if (![self.aaManager isLogined]) {
+        [self addLog:@"请检查网络状态，并游客登录"];
+        return;
+    }
+    if ([self.aaManager isAuthenticated]) {
+        [self addLog:@"您已实名认证，无需再次认证"];
+        return;
+    }
+    [self.aaManager presentForceExitRealNameAuthControllerWithRootViewController:self];
+}
+
+- (void)checkDetailInfo {
+    [self.aaManager presentDetailInfoControllerWithRootViewController:self];
+}
+
+- (void)presentCashLimitedController {
+    if ([self.aaManager isAdult] == adult) {
+        [self addLog:@"成年人无消费限制"];
+        return;
+    }
+    [self.aaManager presentCashLimitedControllerWith:self];
 }
 
 - (void)checkLeftTime {
@@ -127,32 +213,55 @@
 - (void)touristsModeLoginResult:(nullable NSString *)touristsID {
     if (touristsID.length) {
         [self addLog:[NSString stringWithFormat:@"游客登录成功，游客ID: %@", touristsID]];
+        [self.aaManager presentAlertInfoControllerWithRootViewController:self];
+        self.isPresentAlertInfo = YES;
     } else {
         [self addLog:[NSString stringWithFormat:@"游客登录失败"]];
     }
 }
 
-// 实名认证结果
-- (void)realNameAuthenticateResult:(bool)success {
-    if (success) {
-        [self addLog:[NSString stringWithFormat:@"用户实名认证成功"]];
-    } else {
-        [self addLog:[NSString stringWithFormat:@"用户实名认证失败"]];
-    }
+/// 实名认证成功
+- (void)realNameAuthSuccess {
+    [self addLog:[NSString stringWithFormat:@"用户实名认证成功"]];
+    [self.aaManager resumeTimer];
+}
+
+/// 用户在实名认证界面点击暂不认证
+- (void)clickTempLeaveButtonOnRealNameAuthController {
+    [self addLog:[NSString stringWithFormat:@"用户点击暂不认证"]];
+}
+
+/// 用户在实名认证界面点击退出游戏
+- (void)clickForceExitButtonOnRealNameAuthController {
+    [self addLog:[NSString stringWithFormat:@"用户点击退出游戏"]];
+    UIAlertController *alert = [[UIAlertController alloc] init];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.aaManager presentForceExitRealNameAuthControllerWithRootViewController:self];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        exit(0);
+    }];
+    [alert addAction:cancel];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 // 游客时长已用尽(1h/15 days)
-// 收到此回调 3s 后，会展示实名认证界面
-// 游戏请在收到回调 3s 内处理未尽事宜
-- (void)noTimeLeftWithTouristsMode {
-    [self addLog:[NSString stringWithFormat:@"游客时长已用尽，3s 后展示实名认证界面"]];
+// 收到此回调后，会展示实名认证界面
+- (UIViewController *)noTimeLeftWithTouristsMode {
+    [self addLog:[NSString stringWithFormat:@"游客时长已用尽，将展示实名认证界面"]];
+    return self;
 }
 
 // 未成年时长已用尽(2h/1 day)
-// 收到此回调 3s 后，会展示未成年时长已用尽弹窗
-// 游戏请在收到回调 3s 内处理未尽事宜
-- (void)noTimeLeftWithNonageMode {
-    [self addLog:[NSString stringWithFormat:@"未成年时长已用尽，3s 后展示 Alert View"]];
+// 收到此回调后，会展示未成年时长已用尽弹窗
+- (UIViewController *)noTimeLeftWithNonageMode {
+    [self addLog:[NSString stringWithFormat:@"未成年时长已用尽，将展示 Alert View"]];
+    return self;
+}
+
+- (void)currentUserInfo:(int)leftTime isAuthenticated:(BOOL)isAuth ageGroup:(AAAgeGroup)ageGroup {
+    [self addLog:[NSString stringWithFormat:@"----------\n剩余时间 %d\n认证状态 %d\n是否成年 %lu\n----------", leftTime, isAuth, (unsigned long)ageGroup]];
 }
 
 

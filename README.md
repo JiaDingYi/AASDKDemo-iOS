@@ -15,13 +15,14 @@
   <key>zchannelid</key>
   <string>your channel id</string>
   ```
+- [获取 demo](https://github.com/yumimobi/AASDKDemo-iOS) 
 # 导入防沉迷 SDK
 1. CocoaPods （首选）
    
    要将该 SDK 导入 iOS 项目，最简便的方法就是使用 [CocoaPods](https://guides.cocoapods.org/using/getting-started)。
    
    ```ruby
-   pod 'AAManager', '~> 0.1.14'
+   pod 'AAManager', '~> 0.4.1'
    ```
    然后使用命令行运行
    ```shell
@@ -60,8 +61,55 @@
         // do something
     }
    ```
-4. 展示实名认证界面
-   如果游戏没有主动调用，游客游戏时长用尽时将由 SDK 主动触发
+4. 判断用户年龄状态
+   ```objective-c
+   typedef enum: NSUInteger {
+    // 未认证
+    unknown,
+    // 成年
+    adult,
+    // 未成年
+    nonage,
+   }AAAgeGroup;
+
+   // 成年人
+   if ([self.aaManager isAdult] == adult) {
+      // do someting
+   }
+   // 未成年人
+   if ([self.aaManager isAdult] == nonage) {
+      // do someting
+   }
+   // 未认证
+   if ([self.aaManager isAdult] == unknown) {
+      // do someting
+   }
+   ```
+5. 每次进入游戏时，展示在线时长提示界面
+   此界面由游戏在初始化时调用。
+   需判断SDK已登录，如SDK未登录，则在SDK登录成功的回调中调用。
+   成年人无需展示此界面。
+   ```objective-c
+   // 展示提示控制器
+    if ([self.aaManager isLogined]) {
+        if ([self.aaManager isAdult] == adult) {
+            return;
+        }
+        [self.aaManager presentAlertInfoControllerWithRootViewController:self];
+    }
+   ```
+   在登录成功的回调中调用
+   ```objective-c
+   // 游客登录结果
+   // touristsID 有值则为登录成功，否则登录失败
+   - (void)touristsModeLoginResult:(nullable NSString *)touristsID {
+       if (touristsID.length) {
+         [self.aaManager presentAlertInfoControllerWithRootViewController:self];
+       }
+   }
+   ```
+
+6. 展示实名认证界面（用户可点击暂不认证）
    ```objective-c
    - (void)realNameAuth {
     if (![self.aaManager isLogined]) {
@@ -70,12 +118,29 @@
     if ([self.aaManager isAuthenticated]) {
         return;
     }
-    [self.aaManager presentRealNameAuthenticationController];
+    [self.aaManager presentRealNameAuthenticationControllerWithRootViewController:self];
    }
    ```
-5. 查询当前用户剩余时间
-   联网状态下每分钟（或切换前后台时）更新一次 
-
+7. 展示实名认证界面（用户可点击退出游戏）
+   使用场景：
+   如果用户点击退出游戏，开发者需要在`- (void)clickForceExitButtonOnRealNameAuthController;`此回调中展示实名认证获取奖励界面（此界面由开发者自己实现），此界面提供两个交互按钮。
+   退出游戏按钮：点击此按钮退出游戏。
+   实名认证按钮：点击此按钮再次展示SDK提供的实名认证界面。
+   *warning： 此时计时器暂停，开发者需要在认证成功回调中重启计时器`- (void)resumeTimer;`*
+   ```objective-c
+   - (void)realNameAuthWithForceExit {
+      if (![self.aaManager isLogined]) {
+        [self addLog:@"请检查网络状态，并游客登录"];
+        return;
+      }
+      if ([self.aaManager isAuthenticated]) {
+        [self addLog:@"您已实名认证，无需再次认证"];
+        return;
+      }
+      [self.aaManager presentForceExitRealNameAuthControllerWithRootViewController:self];
+   }
+   ```
+8. 查询当前用户剩余时间
    -1 为无限制
    
    ```objective-c
@@ -83,23 +148,68 @@
     int leftTime = [self.aaManager leftTimeOfCurrentUser];
    }
    ```
-6. 实现代理回调
+9. 展示查看详情界面
+   此界面展示中宣部关于防沉迷政策的相关规则
    ```objective-c
-   #pragma mark - delegate
-   // 游客登录结果
-   // touristsID 有值则为登录成功，否则登录失败
-   - (void)touristsModeLoginResult:(nullable NSString *)touristsID {}
-   
-   // 实名认证结果
-   - (void)realNameAuthenticateResult:(bool)success {}
-   
-   // 游客时长已用尽(1h/15 days)
-   // 收到此回调 3s 后，会展示实名认证界面
-   // 游戏请在收到回调 3s 内处理未尽事宜
-   - (void)noTimeLeftWithTouristsMode {}
-   
-   // 未成年时长已用尽(2h/1 day)
-   // 收到此回调 3s 后，会展示未成年时长已用尽弹窗
-   // 游戏请在收到回调 3s 内处理未尽事宜
-   - (void)noTimeLeftWithNonageMode {}
+   - (void)checkDetailInfo {
+      [self.aaManager presentDetailInfoControllerWithRootViewController:self];
+   }
+   ```
+10. 展示消费限制界面
+    未登录及未成年人无法在游戏中付费。
+    成年人无限制
+   ```objective-c
+    - (void)presentCashLimitedController {
+      if ([self.aaManager isAdult] == adult) {
+         [self addLog:@"成年人无消费限制"];
+         return;
+      }
+      [self.aaManager presentCashLimitedControllerWith:self];
+    }
+   ```
+11. 实现代理回调
+   ```objective-c
+    #pragma mark - delegate
+    // 游客登录结果(登录行为只有一次，此回调只会在登录成功后调用一次)
+    // touristsID 有值则为登录成功，否则登录失败
+    - (void)touristsModeLoginResult:(nullable NSString *)touristsID {
+        if (touristsID.length) {
+            [self addLog:[NSString stringWithFormat:@"游客登录成功，游客ID: %@", touristsID]];
+            [self.aaManager presentAlertInfoControllerWithRootViewController:self];
+        } else {
+           [self addLog:[NSString stringWithFormat:@"游客登录失败"]];
+        }
+    }
+    /// 实名认证成功
+    - (void)realNameAuthSuccess {
+       [self addLog:[NSString stringWithFormat:@"用户实名认证成功"]];
+       [self.aaManager resumeTimer];
+    }
+    /// 用户在实名认证界面点击暂不认证
+    - (void)clickTempLeaveButtonOnRealNameAuthController {
+        [self addLog:[NSString stringWithFormat:@"用户点击暂不认证"]];
+    }
+    /// 用户在实名认证界面点击退出游戏
+    - (void)clickForceExitButtonOnRealNameAuthController {
+        [self addLog:[NSString stringWithFormat:@"用户点击退出游戏"]];
+    }
+    // 游客时长已用尽(1h/15 days)
+    // 收到此回调后，会展示实名认证界面
+    - (UIViewController *)noTimeLeftWithTouristsMode {
+        [self addLog:[NSString stringWithFormat:@"游客时长已用尽，将展示实名认证界面"]];
+        return self;
+    }
+    // 未成年时长已用尽(2h/1 day)
+    // 收到此回调后，会展示未成年时长已用尽弹窗
+    - (UIViewController *)noTimeLeftWithNonageMode {
+        [self addLog:[NSString stringWithFormat:@"未成年时长已用尽，将展示 Alert View"]];
+        return self;
+    }
+    // 此回调每秒执行一次
+    // leftTime: 当前用户剩余时间，-1无限制
+    // isAuth: 是否已认证
+    // ageGroup: 用户年龄段
+    - (void)currentUserInfo:(int)leftTime isAuthenticated:(BOOL)isAuth ageGroup:(AAAgeGroup)ageGroup {
+        [self addLog:[NSString stringWithFormat:@"----------\n剩余时间 %d\n认证状态 %d\n是否成年 %lu\n----------", leftTime, isAuth, (unsigned long)ageGroup]];
+    }
    ```

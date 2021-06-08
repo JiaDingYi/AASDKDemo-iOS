@@ -167,7 +167,19 @@
       [self.aaManager presentCashLimitedControllerWith:self];
     }
    ```
-11. 实现代理回调
+11. 定时器管理，暂停计时器计时
+    ```objective-c
+    /// 暂停计时器
+    - (void)stopTimer;
+    ```
+12. 定时器管理，恢复计时器计时
+    实名认证成功时，需调用此方法
+    
+    ```objective-c
+    /// 恢复计时器
+    - (void)resumeTimer;
+    ```
+13.  实现代理回调
    ```objective-c
     #pragma mark - delegate
     // 游客登录结果(登录行为只有一次，此回调只会在登录成功后调用一次)

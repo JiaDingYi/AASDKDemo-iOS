@@ -1,5 +1,5 @@
 PODS:
-  - AAManager (0.4.0):
+  - AAManager (0.4.1):
     - AFNetworking
     - Masonry
     - YYModel
@@ -22,21 +22,21 @@ PODS:
   - YYModel (1.0.4)
 
 DEPENDENCIES:
-  - AAManager (= 0.4.0)
+  - AAManager (= 0.4.1)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - AAManager
     - AFNetworking
     - Masonry
     - YYModel
 
 SPEC CHECKSUMS:
-  AAManager: 548965856668ef60d5fb4771a03a638004ae338c
+  AAManager: 8ba925e10ebcb79650d5c5b02129678da3c185ab
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: d532b7609d76049bd7c5861cf0417f8390cab1f4
+PODFILE CHECKSUM: 0d7c007cfd69c85ffda814145cdfcf7f4ce5b6bc
 
 COCOAPODS: 1.10.1

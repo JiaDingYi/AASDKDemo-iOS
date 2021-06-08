@@ -31,7 +31,7 @@
    如果您刚开始接触 CocoaPods，请参阅其[官方文档](https://guides.cocoapods.org/using/using-cocoapods)，了解如何创建和使用 Podfile。
 # 快速接入
 1. SDK 初始化
-   在用户同意隐私政策之后进行 SDK 初始化。
+   在用户同意隐私政策之后进行 SDK 初始化。 
    SDK 初始化后，开始计时。
    ```objective-c
    #import <AAManager/AAManager.h>
@@ -47,8 +47,8 @@
    }
    @end
    ```
-2. 查询用户是否已经游客登录
-   游客登录将在 SDK 初始化后，由 SDK 内部实现。
+2. 查询用户是否已经游客登录 
+   游客登录将在 SDK 初始化后，由 SDK 内部实现。 
    如因网络等原因造成游客登录失败，SDK 将默认在 1 小时后弹出实名认证界面。
    ```objective-c
    if ([self.aaManager isLogined]) {
@@ -85,9 +85,9 @@
       // do someting
    }
    ```
-5. 每次进入游戏时，展示在线时长提示界面
-   此界面由游戏在初始化时调用。
-   需判断SDK已登录，如SDK未登录，则在SDK登录成功的回调中调用。
+5. 每次进入游戏时，展示在线时长提示界面 
+   此界面由游戏在初始化时调用。 
+   需判断SDK已登录，如SDK未登录，则在SDK登录成功的回调中调用。 
    成年人无需展示此界面。
    ```objective-c
    // 展示提示控制器

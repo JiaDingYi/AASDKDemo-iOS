@@ -30,9 +30,9 @@
    ```
    如果您刚开始接触 CocoaPods，请参阅其[官方文档](https://guides.cocoapods.org/using/using-cocoapods)，了解如何创建和使用 Podfile。
 # 快速接入
-1. SDK 初始化 
-   在用户同意隐私政策之后进行 SDK 初始化。 
-   SDK 初始化后，开始计时。
+1. SDK 初始化   
+   在用户同意隐私政策之后进行 SDK 初始化。   
+   SDK 初始化后，开始计时。  
    ```objective-c
    #import <AAManager/AAManager.h>
    @interface AAViewController () <AAManagerDelegate>
@@ -47,9 +47,9 @@
    }
    @end
    ```
-2. 查询用户是否已经游客登录 
-   游客登录将在 SDK 初始化后，由 SDK 内部实现。 
-   如因网络等原因造成游客登录失败，SDK 将默认在 1 小时后弹出实名认证界面。
+2. 查询用户是否已经游客登录   
+   游客登录将在 SDK 初始化后，由 SDK 内部实现。   
+   如因网络等原因造成游客登录失败，SDK 将默认在 1 小时后弹出实名认证界面。  
    ```objective-c
    if ([self.aaManager isLogined]) {
         // do something
@@ -85,9 +85,9 @@
       // do someting
    }
    ```
-5. 每次进入游戏时，展示在线时长提示界面 
-   此界面由游戏在初始化时调用。 
-   需判断SDK已登录，如SDK未登录，则在SDK登录成功的回调中调用。 
+5. 每次进入游戏时，展示在线时长提示界面   
+   此界面由游戏在初始化时调用。   
+   需判断SDK已登录，如SDK未登录，则在SDK登录成功的回调中调用。   
    成年人无需展示此界面。
    ```objective-c
    // 展示提示控制器
@@ -121,12 +121,12 @@
     [self.aaManager presentRealNameAuthenticationControllerWithRootViewController:self];
    }
    ```
-7. 展示实名认证界面（用户可点击退出游戏) 
-   使用场景: 
-   如果用户点击退出游戏，开发者需要在`- (void)clickForceExitButtonOnRealNameAuthController;`此回调中展示实名认证获取奖励界面（此界面由开发者自己实现），此界面提供两个交互按钮。 
-   退出游戏按钮：点击此按钮退出游戏。 
-   实名认证按钮：点击此按钮再次展示SDK提供的实名认证界面。 
-   *warning： 此时计时器暂停，开发者需要在认证成功回调中重启计时器`- (void)resumeTimer;`*
+7. 展示实名认证界面（用户可点击退出游戏)   
+   使用场景:   
+   如果用户点击退出游戏，开发者需要在`- (void)clickForceExitButtonOnRealNameAuthController;`此回调中展示实名认证获取奖励界面（此界面由开发者自己实现），此界面提供两个交互按钮。   
+   退出游戏按钮：点击此按钮退出游戏。   
+   实名认证按钮：点击此按钮再次展示SDK提供的实名认证界面。   
+   *warning： 此时计时器暂停，开发者需要在认证成功回调中重启计时器`- (void)resumeTimer;`*  
    ```objective-c
    - (void)realNameAuthWithForceExit {
       if (![self.aaManager isLogined]) {
@@ -140,7 +140,7 @@
       [self.aaManager presentForceExitRealNameAuthControllerWithRootViewController:self];
    }
    ```
-8. 查询当前用户剩余时间 
+8. 查询当前用户剩余时间   
    -1 为无限制
    
    ```objective-c
@@ -148,15 +148,15 @@
     int leftTime = [self.aaManager leftTimeOfCurrentUser];
    }
    ```
-9.  展示查看详情界面 
-   此界面展示中宣部关于防沉迷政策的相关规则
+9.  展示查看详情界面   
+    此界面展示中宣部关于防沉迷政策的相关规则
    ```objective-c
    - (void)checkDetailInfo {
       [self.aaManager presentDetailInfoControllerWithRootViewController:self];
    }
    ```
-11. 展示消费限制界面 
-    未登录及未成年人无法在游戏中付费。 
+11. 展示消费限制界面   
+    未登录及未成年人无法在游戏中付费。   
     成年人无限制
    ```objective-c
     - (void)presentCashLimitedController {
@@ -172,7 +172,7 @@
     /// 暂停计时器
     - (void)stopTimer;
     ```
-12. 定时器管理，恢复计时器计时 
+12. 定时器管理，恢复计时器计时   
     实名认证成功时，需调用此方法
     
     ```objective-c

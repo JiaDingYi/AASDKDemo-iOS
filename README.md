@@ -121,11 +121,11 @@
     [self.aaManager presentRealNameAuthenticationControllerWithRootViewController:self];
    }
    ```
-7. 展示实名认证界面（用户可点击退出游戏）
-   使用场景：
-   如果用户点击退出游戏，开发者需要在`- (void)clickForceExitButtonOnRealNameAuthController;`此回调中展示实名认证获取奖励界面（此界面由开发者自己实现），此界面提供两个交互按钮。
-   退出游戏按钮：点击此按钮退出游戏。
-   实名认证按钮：点击此按钮再次展示SDK提供的实名认证界面。
+7. 展示实名认证界面（用户可点击退出游戏) 
+   使用场景: 
+   如果用户点击退出游戏，开发者需要在`- (void)clickForceExitButtonOnRealNameAuthController;`此回调中展示实名认证获取奖励界面（此界面由开发者自己实现），此界面提供两个交互按钮。 
+   退出游戏按钮：点击此按钮退出游戏。 
+   实名认证按钮：点击此按钮再次展示SDK提供的实名认证界面。 
    *warning： 此时计时器暂停，开发者需要在认证成功回调中重启计时器`- (void)resumeTimer;`*
    ```objective-c
    - (void)realNameAuthWithForceExit {

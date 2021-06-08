@@ -140,7 +140,7 @@
       [self.aaManager presentForceExitRealNameAuthControllerWithRootViewController:self];
    }
    ```
-8. 查询当前用户剩余时间
+8. 查询当前用户剩余时间 
    -1 为无限制
    
    ```objective-c
@@ -148,15 +148,15 @@
     int leftTime = [self.aaManager leftTimeOfCurrentUser];
    }
    ```
-9. 展示查看详情界面
+9. 展示查看详情界面 
    此界面展示中宣部关于防沉迷政策的相关规则
    ```objective-c
    - (void)checkDetailInfo {
       [self.aaManager presentDetailInfoControllerWithRootViewController:self];
    }
    ```
-10. 展示消费限制界面
-    未登录及未成年人无法在游戏中付费。
+10. 展示消费限制界面 
+    未登录及未成年人无法在游戏中付费。 
     成年人无限制
    ```objective-c
     - (void)presentCashLimitedController {
@@ -172,7 +172,7 @@
     /// 暂停计时器
     - (void)stopTimer;
     ```
-12. 定时器管理，恢复计时器计时
+12. 定时器管理，恢复计时器计时 
     实名认证成功时，需调用此方法
     
     ```objective-c

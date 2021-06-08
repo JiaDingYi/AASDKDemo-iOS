@@ -30,7 +30,7 @@
    ```
    如果您刚开始接触 CocoaPods，请参阅其[官方文档](https://guides.cocoapods.org/using/using-cocoapods)，了解如何创建和使用 Podfile。
 # 快速接入
-1. SDK 初始化
+1. SDK 初始化 
    在用户同意隐私政策之后进行 SDK 初始化。 
    SDK 初始化后，开始计时。
    ```objective-c
@@ -148,14 +148,14 @@
     int leftTime = [self.aaManager leftTimeOfCurrentUser];
    }
    ```
-9. 展示查看详情界面 
+9.  展示查看详情界面 
    此界面展示中宣部关于防沉迷政策的相关规则
    ```objective-c
    - (void)checkDetailInfo {
       [self.aaManager presentDetailInfoControllerWithRootViewController:self];
    }
    ```
-10. 展示消费限制界面 
+11. 展示消费限制界面 
     未登录及未成年人无法在游戏中付费。 
     成年人无限制
    ```objective-c

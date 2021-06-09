@@ -155,7 +155,7 @@
       [self.aaManager presentDetailInfoControllerWithRootViewController:self];
    }
    ```
-11. 展示消费限制界面   
+10. 展示消费限制界面   
     未登录及未成年人无法在游戏中付费。   
     成年人无限制
    ```objective-c

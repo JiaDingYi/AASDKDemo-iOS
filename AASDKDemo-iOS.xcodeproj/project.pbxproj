@@ -14,6 +14,8 @@
 		5B0796B5265F77830038F285 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B0796B4265F77830038F285 /* Assets.xcassets */; };
 		5B0796B8265F77830038F285 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B0796B6265F77830038F285 /* LaunchScreen.storyboard */; };
 		5B0796BB265F77830038F285 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0796BA265F77830038F285 /* main.m */; };
+		5BCE45B72671C16700513021 /* AwardAlertForZombieController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE45B62671C16700513021 /* AwardAlertForZombieController.m */; };
+		5BCE45BA2671C18B00513021 /* RewardedInfoForZombieController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BCE45B92671C18B00513021 /* RewardedInfoForZombieController.m */; };
 		62B4658460E3DFBAE482C354 /* Pods_AASDKDemo_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3286C80800260E9A3798DD5F /* Pods_AASDKDemo_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,10 @@
 		5B0796B7265F77830038F285 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B0796B9265F77830038F285 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5B0796BA265F77830038F285 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		5BCE45B52671C16700513021 /* AwardAlertForZombieController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwardAlertForZombieController.h; sourceTree = "<group>"; };
+		5BCE45B62671C16700513021 /* AwardAlertForZombieController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwardAlertForZombieController.m; sourceTree = "<group>"; };
+		5BCE45B82671C18B00513021 /* RewardedInfoForZombieController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RewardedInfoForZombieController.h; sourceTree = "<group>"; };
+		5BCE45B92671C18B00513021 /* RewardedInfoForZombieController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RewardedInfoForZombieController.m; sourceTree = "<group>"; };
 		AAD0D822B691B8EAFD15574A /* Pods-AASDKDemo-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AASDKDemo-iOS.debug.xcconfig"; path = "Target Support Files/Pods-AASDKDemo-iOS/Pods-AASDKDemo-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,6 +80,10 @@
 				5B0796AC265F77820038F285 /* SceneDelegate.m */,
 				5B0796AE265F77820038F285 /* ViewController.h */,
 				5B0796AF265F77820038F285 /* ViewController.m */,
+				5BCE45B52671C16700513021 /* AwardAlertForZombieController.h */,
+				5BCE45B62671C16700513021 /* AwardAlertForZombieController.m */,
+				5BCE45B82671C18B00513021 /* RewardedInfoForZombieController.h */,
+				5BCE45B92671C18B00513021 /* RewardedInfoForZombieController.m */,
 				5B0796B1265F77820038F285 /* Main.storyboard */,
 				5B0796B4265F77830038F285 /* Assets.xcassets */,
 				5B0796B6265F77830038F285 /* LaunchScreen.storyboard */,
@@ -233,7 +243,9 @@
 			files = (
 				5B0796B0265F77820038F285 /* ViewController.m in Sources */,
 				5B0796AA265F77820038F285 /* AppDelegate.m in Sources */,
+				5BCE45BA2671C18B00513021 /* RewardedInfoForZombieController.m in Sources */,
 				5B0796BB265F77830038F285 /* main.m in Sources */,
+				5BCE45B72671C16700513021 /* AwardAlertForZombieController.m in Sources */,
 				5B0796AD265F77820038F285 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

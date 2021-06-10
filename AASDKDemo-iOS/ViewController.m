@@ -38,8 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setUpUI];
     [self initAASDK];
+    [self setUpUI];
     self.view.backgroundColor = [UIColor grayColor];
 }
 
@@ -66,6 +66,7 @@
 - (void)setUpUI {
     CGFloat topMarigin = 48.0;
     CGFloat bottomMargin = 34.0;
+    CGFloat margin = 10.0;
     
     self.realNameAuthButton = [[UIButton alloc] init];
     [self.realNameAuthButton addTarget:self action:@selector(realNameAuth) forControlEvents:UIControlEventTouchUpInside];
@@ -91,7 +92,7 @@
     CGSize realNameWithForceExitSize = [self.realNameAuthButtonWithForceExit.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.realNameAuthButtonWithForceExit.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.realNameAuthButtonWithForceExit];
     [self.realNameAuthButtonWithForceExit mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.realNameAuthButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.realNameAuthButton.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(realNameWithForceExitSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(realNameWithForceExitSize.height);
@@ -106,7 +107,7 @@
     CGSize detailInfoSize = [self.checkDetailInfoButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.checkDetailInfoButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.checkDetailInfoButton];
     [self.checkDetailInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.realNameAuthButtonWithForceExit.mas_bottom).with.offset(20);
+        make.top.equalTo(self.realNameAuthButtonWithForceExit.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(detailInfoSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(detailInfoSize.height);
@@ -121,12 +122,11 @@
     CGSize cashLimitedSize = [self.cashLimitedButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.cashLimitedButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.cashLimitedButton];
     [self.cashLimitedButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.checkDetailInfoButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.checkDetailInfoButton.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(cashLimitedSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(cashLimitedSize.height);
     }];
-    
     
     self.checkLeftTimeButton = [[UIButton alloc] init];
     [self.checkLeftTimeButton addTarget:self action:@selector(checkLeftTime) forControlEvents:UIControlEventTouchUpInside];
@@ -137,7 +137,7 @@
     CGSize checkLeftTimeSize = [self.checkLeftTimeButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.checkLeftTimeButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.checkLeftTimeButton];
     [self.checkLeftTimeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.cashLimitedButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.cashLimitedButton.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(checkLeftTimeSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(checkLeftTimeSize.height);
@@ -152,7 +152,7 @@
     CGSize awardSize = [self.awardAlertButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.awardAlertButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.awardAlertButton];
     [self.awardAlertButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.checkLeftTimeButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.checkLeftTimeButton.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(awardSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(awardSize.height);
@@ -167,7 +167,7 @@
     CGSize rewardedSize = [self.rewardedButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.rewardedButton.titleLabel.font, NSFontAttributeName, nil]];
     [self.view addSubview:self.rewardedButton];
     [self.rewardedButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.awardAlertButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.awardAlertButton.mas_bottom).with.offset(margin);
         make.centerX.equalTo(self.view.mas_centerX);
         make.width.mas_greaterThanOrEqualTo(rewardedSize.width + 30);
         make.height.mas_greaterThanOrEqualTo(rewardedSize.height);

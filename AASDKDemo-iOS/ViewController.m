@@ -11,7 +11,7 @@
 #import "AwardAlertForZombieController.h"
 #import "RewardedInfoForZombieController.h"
 
-@interface ViewController () <AAManagerDelegate>
+@interface ViewController () <AAManagerDelegate, AwardAlertInfoControllerDelegate>
 // 暂不认证 实名认证控制器
 @property (nonatomic) UIButton *realNameAuthButton;
 // 退出游戏 实名认证控制器
@@ -246,6 +246,7 @@
 - (void)presentAwardAlertControllerForZombie {
     AwardAlertForZombieController *awardAlertController = [[AwardAlertForZombieController alloc] init];
     awardAlertController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    awardAlertController.delegate = self;
     [self presentViewController:awardAlertController animated:NO completion:nil];
 }
 
@@ -312,5 +313,12 @@
     [self addLog:[NSString stringWithFormat:@"----------\n剩余时间 %d\n认证状态 %d\n是否成年 %lu\n----------", leftTime, isAuth, (unsigned long)ageGroup]];
 }
 
+#pragma mark - AwardAlertInfoControllerDelegate
+- (void)userClickLeaveButton {
+    NSLog(@"userClickLeaveButton");
+}
+- (void)userClickAuthButton {
+    NSLog(@"userClickAuthButton");
+}
 
 @end

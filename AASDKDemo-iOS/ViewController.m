@@ -40,6 +40,7 @@
     
     [self setUpUI];
     [self initAASDK];
+    self.view.backgroundColor = [UIColor grayColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

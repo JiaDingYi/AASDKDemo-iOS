@@ -8,6 +8,8 @@
 #import "ViewController.h"
 #import <AAManager/AAManager.h>
 #import <Masonry/Masonry.h>
+#import "AwardAlertForZombieController.h"
+#import "RewardedInfoForZombieController.h"
 
 @interface ViewController () <AAManagerDelegate>
 // 暂不认证 实名认证控制器
@@ -21,6 +23,10 @@
 // 消费限制
 @property (nonatomic) UIButton *cashLimitedButton;
 @property (nonatomic, assign) BOOL isPresentAlertInfo;
+// 僵尸奖励挽留界面
+@property (nonatomic) UIButton *awardAlertButton;
+// 僵尸奖励后界面
+@property (nonatomic) UIButton *rewardedButton;
 @property (nonatomic) UITextView *console;
 
 @property (nonatomic) AAManager *aaManager;
@@ -136,12 +142,42 @@
         make.height.mas_greaterThanOrEqualTo(checkLeftTimeSize.height);
     }];
     
+    self.awardAlertButton = [[UIButton alloc] init];
+    [self.awardAlertButton addTarget:self action:@selector(presentAwardAlertControllerForZombie) forControlEvents:UIControlEventTouchUpInside];
+    self.awardAlertButton.backgroundColor = [UIColor blackColor];
+    self.awardAlertButton.layer.cornerRadius = 8.0;
+    self.awardAlertButton.layer.masksToBounds = YES;
+    [self.awardAlertButton setTitle:@"展示僵尸奖励提示界面" forState:UIControlStateNormal];
+    CGSize awardSize = [self.awardAlertButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.awardAlertButton.titleLabel.font, NSFontAttributeName, nil]];
+    [self.view addSubview:self.awardAlertButton];
+    [self.awardAlertButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.checkLeftTimeButton.mas_bottom).with.offset(20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_greaterThanOrEqualTo(awardSize.width + 30);
+        make.height.mas_greaterThanOrEqualTo(awardSize.height);
+    }];
+    
+    self.rewardedButton = [[UIButton alloc] init];
+    [self.rewardedButton addTarget:self action:@selector(presentRewardedControllerForZombie) forControlEvents:UIControlEventTouchUpInside];
+    self.rewardedButton.backgroundColor = [UIColor blackColor];
+    self.rewardedButton.layer.cornerRadius = 8.0;
+    self.rewardedButton.layer.masksToBounds = YES;
+    [self.rewardedButton setTitle:@"展示僵尸奖励后界面" forState:UIControlStateNormal];
+    CGSize rewardedSize = [self.rewardedButton.titleLabel.text sizeWithAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.rewardedButton.titleLabel.font, NSFontAttributeName, nil]];
+    [self.view addSubview:self.rewardedButton];
+    [self.rewardedButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.awardAlertButton.mas_bottom).with.offset(20);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.width.mas_greaterThanOrEqualTo(rewardedSize.width + 30);
+        make.height.mas_greaterThanOrEqualTo(rewardedSize.height);
+    }];
+    
     self.console = [[UITextView alloc] init];
     self.console.backgroundColor = [UIColor grayColor];
     self.console.editable = NO;
     [self.view addSubview:self.console];
     [self.console mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.checkLeftTimeButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.rewardedButton.mas_bottom).with.offset(20);
         make.width.equalTo(self.view.mas_width).with.multipliedBy(0.8);
         make.bottom.equalTo(self.view.mas_bottom).with.offset(-bottomMargin);
         make.centerX.equalTo(self.view.mas_centerX);
@@ -205,6 +241,18 @@
         return;
     }
     [self addLog:[NSString stringWithFormat:@"当前用户剩余时长：%.2f 分钟", (leftTime / 60.0)]];
+}
+
+- (void)presentAwardAlertControllerForZombie {
+    AwardAlertForZombieController *awardAlertController = [[AwardAlertForZombieController alloc] init];
+    awardAlertController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:awardAlertController animated:NO completion:nil];
+}
+
+- (void)presentRewardedControllerForZombie {
+    RewardedInfoForZombieController *rewardedController = [[RewardedInfoForZombieController alloc] init];
+    rewardedController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:rewardedController animated:NO completion:nil];
 }
 
 #pragma mark - delegate

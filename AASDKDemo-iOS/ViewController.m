@@ -372,19 +372,17 @@
 
 - (void)currentUserInfo:(int)leftTime isAuthenticated:(BOOL)isAuth ageGroup:(AAAgeGroup)ageGroup {
     [self addLog:[NSString stringWithFormat:@"----------\n剩余时间 %d\n认证状态 %d\n是否成年 %lu\n----------", leftTime, isAuth, (unsigned long)ageGroup]];
-    if (isAuth && self.countdownView.superview) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (isAuth && self.countdownView.superview) {
             [self.countdownView updateAuthedUI];
-        });
-    }
-    if (ageGroup == adult && self.countdownView.superview) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        }
+        if (ageGroup == adult && self.countdownView.superview) {
             [self removeCountdownView];
-        });
-    }
-    if (self.countdownView.superview) {
-        self.countdownView.countdown = leftTime;
-    }
+        }
+        if (self.countdownView.superview) {
+            self.countdownView.countdown = leftTime;
+        }
+    });
 }
 
 #pragma mark - AwardAlertInfoControllerDelegate

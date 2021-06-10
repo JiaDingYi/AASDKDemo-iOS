@@ -51,9 +51,9 @@
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -62,9 +62,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>zgameid</key>
-    <string>z01005</string>
-    <key>zchannelid</key>
-    <string>zy005</string>
+	<key>zchannelid</key>
+	<string>zy005</string>
+	<key>zgameid</key>
+	<string>z01005</string>
 </dict>
 </plist>

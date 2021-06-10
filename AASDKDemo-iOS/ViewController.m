@@ -10,8 +10,9 @@
 #import <Masonry/Masonry.h>
 #import "AwardAlertForZombieController.h"
 #import "RewardedInfoForZombieController.h"
+#import "CountdownViewForZombie.h"
 
-@interface ViewController () <AAManagerDelegate, AwardAlertInfoControllerDelegate, RewardedInfoControllerDelegate>
+@interface ViewController () <AAManagerDelegate, AwardAlertInfoControllerDelegate, RewardedInfoControllerDelegate, CountdownViewDelegate>
 // 暂不认证 实名认证控制器
 @property (nonatomic) UIButton *realNameAuthButton;
 // 退出游戏 实名认证控制器
@@ -28,6 +29,8 @@
 // 僵尸奖励后界面
 @property (nonatomic) UIButton *rewardedButton;
 @property (nonatomic) UITextView *console;
+// 倒计时
+@property (nonatomic) CountdownViewForZombie *countdownView;
 
 @property (nonatomic) AAManager *aaManager;
 
@@ -173,12 +176,62 @@
         make.height.mas_greaterThanOrEqualTo(rewardedSize.height);
     }];
     
+    if ([self.aaManager isAdult] != adult && [self.aaManager isLogined]) {
+        [self addCountdownView];
+        return;
+    }
+    
     self.console = [[UITextView alloc] init];
     self.console.backgroundColor = [UIColor grayColor];
     self.console.editable = NO;
     [self.view addSubview:self.console];
     [self.console mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.rewardedButton.mas_bottom).with.offset(20);
+        make.top.equalTo(self.rewardedButton.mas_bottom).with.offset(margin);
+        make.width.equalTo(self.view.mas_width).with.multipliedBy(0.8);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-bottomMargin);
+        make.centerX.equalTo(self.view.mas_centerX);
+    }];
+}
+
+- (void)addCountdownView {
+    CGFloat margin = 10.0;
+    CGFloat bottomMargin = 34.0;
+    self.countdownView = [[CountdownViewForZombie alloc] init];
+    self.countdownView.delegate = self;
+    [self.view addSubview:self.countdownView];
+    [self.countdownView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.view.mas_width).multipliedBy(0.7);
+        make.height.mas_equalTo(30.0);
+        make.top.equalTo(self.rewardedButton.mas_bottom).offset(margin);
+        make.centerX.equalTo(self.view);
+    }];
+    
+    [self.console removeFromSuperview];
+    self.console = nil;
+    self.console = [[UITextView alloc] init];
+    self.console.backgroundColor = [UIColor grayColor];
+    self.console.editable = NO;
+    [self.view addSubview:self.console];
+    [self.console mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.countdownView.mas_bottom).with.offset(margin);
+        make.width.equalTo(self.view.mas_width).with.multipliedBy(0.8);
+        make.bottom.equalTo(self.view.mas_bottom).with.offset(-bottomMargin);
+        make.centerX.equalTo(self.view.mas_centerX);
+    }];
+}
+
+- (void)removeCountdownView {
+    CGFloat margin = 10.0;
+    CGFloat bottomMargin = 34.0;
+    [self.countdownView removeFromSuperview];
+    self.countdownView = nil;
+    
+    self.console = [[UITextView alloc] init];
+    self.console.backgroundColor = [UIColor grayColor];
+    self.console.editable = NO;
+    [self.view addSubview:self.console];
+    [self.console mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.rewardedButton.mas_bottom).with.offset(margin);
         make.width.equalTo(self.view.mas_width).with.multipliedBy(0.8);
         make.bottom.equalTo(self.view.mas_bottom).with.offset(-bottomMargin);
         make.centerX.equalTo(self.view.mas_centerX);
@@ -266,6 +319,12 @@
         [self addLog:[NSString stringWithFormat:@"游客登录成功，游客ID: %@", touristsID]];
         [self.aaManager presentAlertInfoControllerWithRootViewController:self];
         self.isPresentAlertInfo = YES;
+        if ([self.aaManager isLogined] && [self.aaManager isAdult] != adult) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self addCountdownView];
+            });
+            return;
+        }
     } else {
         [self addLog:[NSString stringWithFormat:@"游客登录失败"]];
     }
@@ -313,6 +372,19 @@
 
 - (void)currentUserInfo:(int)leftTime isAuthenticated:(BOOL)isAuth ageGroup:(AAAgeGroup)ageGroup {
     [self addLog:[NSString stringWithFormat:@"----------\n剩余时间 %d\n认证状态 %d\n是否成年 %lu\n----------", leftTime, isAuth, (unsigned long)ageGroup]];
+    if (isAuth && self.countdownView.superview) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.countdownView updateAuthedUI];
+        });
+    }
+    if (ageGroup == adult && self.countdownView.superview) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeCountdownView];
+        });
+    }
+    if (self.countdownView.superview) {
+        self.countdownView.countdown = leftTime;
+    }
 }
 
 #pragma mark - AwardAlertInfoControllerDelegate
@@ -326,6 +398,15 @@
 #pragma mark - RewardedInfoControllerDelegate
 - (void)userClickReceivedButton {
     NSLog(@"userClickAuthButton");
+}
+
+#pragma mark - CountdownViewDelegate
+- (void)userClickAuthButtonInCountdownView {
+    [self.aaManager presentRealNameAuthenticationControllerWithRootViewController:self];
+}
+
+- (void)userClickCheckDetailInfoButtonInCountdownView {
+    [self.aaManager presentDetailInfoControllerWithRootViewController:self];
 }
 
 @end

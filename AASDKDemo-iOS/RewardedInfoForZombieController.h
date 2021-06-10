@@ -9,7 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol RewardedInfoControllerDelegate <NSObject>
+- (void)userClickReceivedButton;
+
+@end
+
 @interface RewardedInfoForZombieController : UIViewController
+@property (nonatomic, weak) id<RewardedInfoControllerDelegate> delegate;
 
 @end
 
